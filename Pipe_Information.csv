@@ -1,0 +1,34 @@
+ID,Type,Depth (ft),Width (ft),Shape,Slope,Roughness,Silt Depth (ft)
+BCOHFM26-01,Flow Meter,1.25,0,Circular,0.002501257,0.01,0
+BCOHFM26-02,Flow Meter,4,0,Circular,0.001491927,0.017,0
+BCOHFM26-03,Flow Meter,2.75,0,Circular,0.0026,0.017,0
+BCOHFM26-04,Flow Meter,1.5,0,Circular,0.01,0.016,0
+BCOHFM26-05,Flow Meter,3.042,0,Circular,0.006,0.017,0
+BCOHFM26-06,Flow Meter,2,0,Circular,0.005,0.012,0
+BCOHFM26-07,Flow Meter,4,0,Circular,0.003,0.012,0
+BCOHFM26-08,Flow Meter,4.375,0,Circular,0.003,0.017,0
+BCOHFM26-09,Flow Meter,2,0,Circular,0.02174655,0.011,0
+BCOHFM26-10,Flow Meter,3.5,0,Circular,0.010229865,0.013,0
+BCOHFM26-11,Flow Meter,4,0,Circular,0.014866741,0.011,0
+BCOHFM26-12,Flow Meter,2.5,0,Circular,0.0001,0.016,0.25
+BCOHFM26-13,Flow Meter,3,0,Circular,0.001259666,0.016,0.25
+BCOHFM26-14,Flow Meter,2,0,Circular,0.020086828,0.011,0
+BCOHFM26-15,Flow Meter,3.166,7.583,Rectangular,0.05,0.012,0
+BCOHRG_01,Rain Gauge,0,0,-,0,0,0
+BCOHRG_02,Rain Gauge,0,0,-,0,0,0
+BCOHRG_03,Rain Gauge,0,0,-,0,0,0
+BCOHSC-01 03_26_26 to 04_09_26,Stream Gauge,0,0,-,0,0,0
+BCOHSC-02 03_26_26 to 04_09_26,Stream Gauge,0,0,-,0,0,0
+BCOHSC-03 03_26_26 to 04_09_26,Stream Gauge,0,0,-,0,0,0
+FL900_BCOHOF26-03,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-07,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-09,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-12,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-13,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-17,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-19,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-22,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-23,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-24,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-25,Overflow Meter,0,0,-,0,0,0
+FL900_BCOHOF26-26,Overflow Meter,0,0,-,0,0,0
