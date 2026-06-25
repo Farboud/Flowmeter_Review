@@ -1,59 +1,57 @@
 PCSWMM TSF Processing Toolkit
-This repository contains three Python scripts for converting, analyzing, and validating TSF (time series) data used in PCSWMM and hydraulic monitoring workflows.
-Scripts included (in order):
+This repository contains a set of Python scripts for converting, analyzing, and validating TSF (time series) data used in PCSWMM and hydraulic monitoring workflows.
+
+Contents
+The repository includes the following scripts:
 
 csv_to_tsf_V3.py
 Hydrograph_Scatterplot_V2.py
 Mass_Balance.py
 
 
-OVERVIEW
-These scripts are designed to work together:
+Overview
+These tools are designed to support a typical monitoring data workflow:
 
-Convert raw CSV monitoring data into TSF format
-Visually analyze hydraulic behavior and compare to theory
-Perform system-wide mass balance checks
+Convert raw CSV files into PCSWMM-compatible TSF format
+Visualize and assess hydraulic behavior using measured data
+Perform mass balance checks across flow monitoring networks
 
-All scripts are intended to run locally using Python 3 and operate on files located in the same directory.
+All scripts operate locally and expect input files to be placed in the same working directory.
 
+1. csv_to_tsf_V3.py
+Purpose
+Converts multiple CSV time series files into TSF format compatible with PCSWMM.
+Key Features
 
-csv_to_tsf_V3.py
+Automatically scans the working directory for CSV files
+Processes files based on naming conventions:
 
+BCOHSC files
 
-Purpose:
-Converts multiple CSV files into PCSWMM-compatible TSF files.
-Main functionality:
-
-Scans the working directory for all CSV files
-Processes files differently based on filename patterns
-
-File types:
-A) Files starting with "BCOHSC"
-
-Skips first 10 lines
-Uses columns: Date, Time, LEVEL, TEMPERATURE
-Outputs:
-Date/Time, Level, Temperature
+Skips first 10 rows
+Uses: Date, Time, LEVEL, TEMPERATURE
+Outputs: Date/Time, Level, Temperature
 Rounding:
+
 Level → 8 decimals
 Temperature → 3 decimals
 
-B) Files starting with "BCOHRG"
-
-Automatically detects:
-
-Rain column (contains "rain")
-DateTime_ET column (contains "et")
 
 
+BCOHRG files
+
+Detects Rain column and DateTime_ET column dynamically
 Ignores DateTime_MDT
-Outputs:
-Date/Time, Rainfall
-Rainfall rounded to 3 decimals
+Outputs: Date/Time, Rainfall
+Rounding:
 
-C) All other files
+Rainfall → 3 decimals
 
-Automatically detects columns:
+
+
+All other files
+
+Detects columns automatically:
 
 Date/Time
 Depth (depth/level/lvl)
@@ -61,49 +59,45 @@ Flow
 Velocity (optional)
 
 
-Outputs:
-Date/Time, Depth, Flow, Velocity
-If velocity not found, column is left blank
+Outputs: Date/Time, Depth, Flow, Velocity
+Missing velocity is left blank
 Rounding:
+
 Depth → 8 decimals
 Flow → 9 decimals
 Velocity → 8 decimals
 
-General behavior:
+
+
+Additional Behavior
 
 Extracts ID from filename
-Formats dates for PCSWMM compatibility
-Writes TSF with:
+Formats timestamps for PCSWMM
+Writes TSF structure:
 
 IDs row
-header row
-format row
-data (no units row)
+Header row
+Format row
+Data (no units row)
 
 
-Handles UTF-8 and ANSI files
-Output filename matches input CSV
+Supports UTF-8 and ANSI encoded files
 
-Usage:
-
-Place script and CSV files in the same folder
-Run:
+Usage
 python csv_to_tsf_V3.py
 
+Place the script and CSV files in the same folder before running.
+
+2. Hydrograph_Scatterplot_V2.py
+Purpose
+Provides a graphical interface for visualizing TSF data and comparing measured values with theoretical hydraulic relationships.
+Key Features
 
 
-Hydrograph_Scatterplot_V2.py
+Automatically loads all TSF files in the directory
 
 
-Purpose:
-GUI tool for visualizing TSF data and comparing measured results to theoretical hydraulic behavior.
-Main functionality:
-
-
-Loads all TSF files in the directory
-
-
-Groups files by monitoring type:
+Categorizes files by monitoring type:
 
 Flow Meter
 Overflow Meter
@@ -112,16 +106,14 @@ Stream Gauge
 
 
 
-Reads Pipe_Information.csv for hydraulic properties
+Reads geometry and hydraulic data from Pipe_Information.csv
 
 
-Available actions:
-
-Plot Depth vs Velocity
-
+Plotting Options
+Depth vs Velocity
 
 Measured values shown as scatter points
-Theoretical curve calculated using Manning’s equation
+Theoretical curve computed using Manning’s equation
 Supports:
 
 Circular pipes
@@ -129,113 +121,114 @@ Rectangular sections
 
 
 
+Depth vs Area of Flow
 
-Plot Depth vs Area of Flow
-
-
-Measured area = Flow / Velocity
+Measured area calculated as:
+Flow / Velocity
 Theoretical area computed using pipe geometry
-For circular pipes with silt:
-effective area = area(water depth) - area(silt depth)
+Circular pipe calculations account for silt if present
 
-
-Show Data Table
-
+Data Table View
 
 Displays raw TSF data for validation
 
-Hydraulic assumptions:
+Hydraulic Assumptions
 
 
 Manning’s equation:
-V = (1/n) * Rh^(2/3) * S^(1/2)
+V = (1/n) × Rh^(2/3) × S^(1/2)
 
 
 Circular pipes:
-based on segment geometry
+
+Based on segment geometry
+Silt reduces effective flow area
+
 
 
 Rectangular channels:
+
 Area = width × depth
 
 
-Other features:
 
-Converts depth units (inches to feet when needed)
-Converts flow units (mgd to cfs when needed)
-Displays metadata directly on plots:
-ID, shape, slope, roughness, silt depth, etc.
+Additional Features
 
-Usage:
+Converts depth units (inches to feet when required)
+Converts flow units (mgd to cfs when required)
+Displays metadata in plots:
+ID, shape, slope, roughness, dimensions, silt depth, etc.
 
-Place script, TSF files, and Pipe_Information.csv in the same folder
-Run:
+Usage
 python Hydrograph_Scatterplot_V2.py
-Use GUI to select file and plotting option
+
+Ensure the following are in the same folder:
+
+TSF files
+Pipe_Information.csv
 
 
+3. Mass_Balance.py
+Purpose
+Performs automated mass balance calculations across a network of flow meters.
+Key Features
 
-Mass_Balance.py
-
-
-Purpose:
-Performs mass balance calculations across a network of flow meters.
-Main functionality:
-
-
-Reads all TSF files that match IDs in the mass balance table
-
-
+Reads all TSF files matching IDs in the mass balance configuration
 For each node (ID):
 
 Sums upstream inflows (FMs)
 Sums upstream outflows (OFs)
 Computes:
-Inflow - Outflow
+Inflow − Outflow
 
 
 
-Uses timestamps from the original data
-
-
-Outputs:
-For each ID, creates a TSF file:
+Output
+Generates one TSF file per ID:
 ID_startYYYYMMDD_endYYYYMMDD_Mass_Balance.tsf
-Output includes:
+
+Each output file includes:
 
 Date/Time
 Original flow
-Each inflow series
-Each outflow series
-Inflow (Sum)
-Outflow (Sum)
+All inflow time series
+All outflow time series
+Inflow (sum)
+Outflow (sum)
 Calculated value (Inflow-Outflow)
 
-Other features:
+Additional Features
 
 Optional replacement of negative flows with zero
-Cross-platform date formatting (Windows/Linux/Mac)
-Plots original vs calculated series
+Preserves original timestamps
+Cross-platform date formatting
+Generates comparison plots (original vs calculated flow)
 
-Usage:
-
-Place script and TSF files in the same folder
-Configure mass balance table inside the script
-Run:
+Usage
 python Mass_Balance.py
 
 
-INPUT REQUIREMENTS
-TSF files:
+Place script and TSF files in the same folder
+Configure the mass balance table within the script
+Set:
+
+replace_negative_flows = True or False
+
+
+Input Requirements
+TSF Files
 
 Tab-delimited format:
-Row 1: IDs
-Row 2: variable names
-Row 3: units
-Row 4+: data
 
-Pipe_Information.csv:
-Must include columns such as:
+Row 1: IDs
+Row 2: Variable names
+Row 3: Units
+Row 4+: Data
+
+
+
+Pipe_Information.csv
+Required columns include:
 
 ID
 Type
@@ -247,13 +240,13 @@ Roughness
 Silt Depth (ft)
 
 
-NOTES
+Notes
 
-All scripts assume consistent TSF formatting for PCSWMM
+TSF formatting follows PCSWMM conventions
 Column detection is flexible and case-insensitive
 Missing or invalid data is skipped where applicable
 Designed for real monitoring datasets and hydraulic validation workflows
 
 
-VERSION
+Version
 2026
